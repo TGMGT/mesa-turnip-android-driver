@@ -1,7 +1,7 @@
 [binaries]
 ar = 'NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar'
-c = ['ccache', 'NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android26-clang']
-cpp = ['ccache', 'NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android26-clang++', '-fno-exceptions', '-fno-unwind-tables', '-fno-asynchronous-unwind-tables', '-static-libstdc++', '-Wno-c++11-narrowing']
+c = ['ccache', 'NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang']
+cpp = ['ccache', 'NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang++', '-fno-exceptions', '-fno-unwind-tables', '-fno-asynchronous-unwind-tables', '-static-libstdc++', '-Wno-c++11-narrowing']
 c_ld = 'lld'
 cpp_ld = 'lld'
 strip = ['NDKDIR/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip', '-s']
@@ -12,3 +12,7 @@ system = 'android'
 cpu_family = 'aarch64'
 cpu = 'armv8'
 endian = 'little'
+
+[properties]
+pkg_config_libdir = []
+pkg_config_static = true
