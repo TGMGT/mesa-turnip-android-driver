@@ -31,15 +31,17 @@ jobs:
         meson setup build-android --cross-file ./android-aarch64 \
             -Dbuildtype=release \
             -Dplatforms=android \
-            -Dplatform-sdk-version=26 \
+            -Dplatform-sdk-version=29 \
             -Dandroid-stub=true \
             -Dvideo-codecs= \
-            -Dgallium-drivers= \
+            -Dgallium-drivers=freedreno \
             -Dglx=disabled \
-            -Degl=disabled \
+            -Degl=enabled \
             -Dvulkan-drivers=freedreno \
             -Dfreedreno-kmds=kgsl \
-            -Db_lto=true -Dstrip=true
+            -Db_lto=true -Dstrip=true \
+            -Dgles1=enabled \
+            -Dgles2=enabled
 
         ninja -C build-android
 
