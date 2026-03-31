@@ -1,4 +1,4 @@
-diff -Nuarp mesa-25.0.0/src/android_stub/cutils_stub.cpp mesa.android_stub/src/android_stub/cutils_stub.cpp
+diff -Nuarp mesa/src/android_stub/cutils_stub.cpp mesa.android_stub/src/android_stub/cutils_stub.cpp
 --- mesa/src/android_stub/cutils_stub.cpp	2025-02-19 22:57:11.000000000 +0800
 +++ mesa.android_stub/src/android_stub/cutils_stub.cpp	2025-02-21 22:50:54.467080507 +0800
 @@ -1,32 +1,61 @@
