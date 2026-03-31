@@ -26,11 +26,9 @@ jobs:
         sed -e "s|NDKDIR|$ANDROID_NDK_LATEST_HOME|g" < ../android-aarch64 > android-aarch64
         patch -p1 -i ../mesa-implement-android_stub.patch
         patch -p1 --forward --batch -i ../mesa-android-include-all-vulkan-extension.patch
-        
+        meson subprojects download
         meson setup build-android --cross-file ./android-aarch64 \
-            --wrap-mode=forcefallback \
-            -Dbuildtype=release \
-            -Dplatforms=android \
+            --force-fallback-for=libdrm \
             -Dbuildtype=release \
             -Dplatforms=android \
             -Dplatform-sdk-version=29 \
