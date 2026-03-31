@@ -18,6 +18,11 @@ jobs:
     - name: pip
       run: pip3 install -U meson --user
 
+    - name: prepare-subprojects
+      run: |
+        mkdir -p subprojects
+        meson wrap install libdrm
+    
     - name: build
       run: |
         git clone https://gitlab.freedesktop.org/mesa/mesa.git --depth 1 --recursive
