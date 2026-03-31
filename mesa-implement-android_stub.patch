@@ -63,6 +63,7 @@ diff -Nuarp mesa-26.1.0/src/android_stub/sync_stub.cpp mesa-26.1.0.patched/src/a
  }
 -
  }
+ 
 diff -Nuarp mesa-25.0.0/src/android_stub/dlfcn_nougat.cpp mesa-25.0.0.android_stub/src/android_stub/dlfcn_nougat.cpp
 --- mesa-25.0.0/src/android_stub/dlfcn_nougat.cpp	1970-01-01 08:00:00.000000000 +0800
 +++ mesa-25.0.0.android_stub/src/android_stub/dlfcn_nougat.cpp	2025-02-21 22:31:14.564970157 +0800
