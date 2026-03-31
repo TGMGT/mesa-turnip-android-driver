@@ -17,11 +17,6 @@ jobs:
 
     - name: pip
       run: pip3 install -U meson --user
-
-    - name: prepare-subprojects
-      run: |
-        mkdir -p subprojects
-        meson wrap install libdrm
     
     - name: build
       run: |
@@ -32,7 +27,13 @@ jobs:
         patch -p1 -i ../mesa-implement-android_stub.patch
         patch -p1 --forward --batch -i ../mesa-android-include-all-vulkan-extension.patch
 
+        mkdir -p subprojects
+        meson wrap install libdrm
+
         meson setup build-android --cross-file ./android-aarch64 \
+            --wrap-mode=forcefallback \
+            -Dbuildtype=release \
+            -Dplatforms=android \
             -Dbuildtype=release \
             -Dplatforms=android \
             -Dplatform-sdk-version=29 \
