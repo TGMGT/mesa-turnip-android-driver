@@ -1,5 +1,5 @@
 name: edge
-on: [push]
+on: workflow_dispatch
 
 env:
   mesa-version: edge
