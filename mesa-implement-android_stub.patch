@@ -1,70 +1,67 @@
-diff -Nuarp mesa-25.0.0/src/android_stub/cutils_stub.cpp mesa-25.0.0.android_stub/src/android_stub/cutils_stub.cpp
---- mesa-25.0.0/src/android_stub/cutils_stub.cpp	2025-02-19 22:57:11.000000000 +0800
-+++ mesa-25.0.0.android_stub/src/android_stub/cutils_stub.cpp	2025-02-21 22:50:54.467080507 +0800
-@@ -1,32 +1,61 @@
- #include <cutils/properties.h>
- #include <cutils/trace.h>
- 
+diff -Nuarp mesa-26.1.0/src/android_stub/sync_stub.cpp mesa-26.1.0.patched/src/android_stub/sync_stub.cpp
+--- mesa-26.1.0/src/android_stub/sync_stub.cpp
++++ mesa-26.1.0.patched/src/android_stub/sync_stub.cpp
+@@ -1,28 +1,64 @@
+ #include <sync/sync.h>
 +#include "dlfcn_nougat.h"
 +
-+typedef int (*PFN_property_get)(const char *key, char *value, const char *default_value);
-+typedef void (*PFN_atrace_begin_body)(const char * name);
-+typedef void (*PFN_atrace_end_body)();
-+typedef void (*PFN_atrace_init)();
-+typedef uint64_t (*PFN_atrace_get_enabled_tags)();
++typedef int (*PFN_sync_wait)(int fd, int timeout);
++typedef int (*PFN_sync_merge)(const char *name, int fd1, int fd2);
++typedef struct sync_file_info* (*PFN_sync_file_info)(int fd);
++typedef void (*PFN_sync_file_info_free)(struct sync_file_info* info);
 +
-+static void* lib = 0;
-+static PFN_property_get lib_property_get = 0;
-+static PFN_atrace_begin_body lib_atrace_begin_body = 0;
-+static PFN_atrace_end_body lib_atrace_end_body = 0;
-+static PFN_atrace_init lib_atrace_init = 0;
-+static PFN_atrace_get_enabled_tags lib_atrace_get_enabled_tags = 0;
++static void* lib_sync = 0;
++static PFN_sync_wait lib_sync_wait = 0;
++static PFN_sync_merge lib_sync_merge = 0;
++static PFN_sync_file_info lib_sync_file_info = 0;
++static PFN_sync_file_info_free lib_sync_file_info_free = 0;
 +
 +__attribute__((constructor))
-+static void init()
++static void init_sync()
 +{
-+   lib = fake_dlopen("libcutils.so", 0);
-+   lib_property_get = (PFN_property_get)fake_dlsym(lib, "property_get");
-+   lib_atrace_begin_body = (PFN_atrace_begin_body)fake_dlsym(lib, "atrace_begin_body");
-+   lib_atrace_end_body = (PFN_atrace_end_body)fake_dlsym(lib, "atrace_end_body");
-+   lib_atrace_init = (PFN_atrace_init)fake_dlsym(lib, "atrace_init");
-+   lib_atrace_get_enabled_tags = (PFN_atrace_get_enabled_tags)fake_dlsym(lib, "atrace_get_enabled_tags");
++   lib_sync = fake_dlopen("libsync.so", 0);
++   lib_sync_wait = (PFN_sync_wait)fake_dlsym(lib_sync, "sync_wait");
++   lib_sync_merge = (PFN_sync_merge)fake_dlsym(lib_sync, "sync_merge");
++   lib_sync_file_info = (PFN_sync_file_info)fake_dlsym(lib_sync, "sync_file_info");
++   lib_sync_file_info_free = (PFN_sync_file_info_free)fake_dlsym(lib_sync, "sync_file_info_free");
 +}
-+
+ 
  extern "C" {
  
  int
- property_get(const char *key, char *value, const char *default_value)
+-sync_wait(int /*fd*/, int /*timeout*/)
++sync_wait(int fd, int timeout)
  {
--   return 0;
-+   return lib_property_get(key, value, default_value);
+-   return -1;
++   if (lib_sync_wait) return lib_sync_wait(fd, timeout);
++   return -1;
+ }
+ 
+ int
+-sync_merge(const char * /*name*/, int /*fd1*/, int /*fd2*/)
++sync_merge(const char * name, int fd1, int fd2)
+ {
+-   return -1;
++   if (lib_sync_merge) return lib_sync_merge(name, fd1, fd2);
++   return -1;
+ }
+ 
+ struct sync_file_info *
+-sync_file_info(int /*fd*/)
++sync_file_info(int fd)
+ {
+-   return nullptr;
++   if (lib_sync_file_info) return lib_sync_file_info(fd);
++   return nullptr;
  }
  
  void
--atrace_begin_body(const char * /*name*/)
-+atrace_begin_body(const char * name)
+-sync_file_info_free(struct sync_file_info * /*info*/)
++sync_file_info_free(struct sync_file_info * info)
  {
-+   return lib_atrace_begin_body(name);
++   if (lib_sync_file_info_free) lib_sync_file_info_free(info);
  }
- 
- void
- atrace_end_body()
- {
-+   return lib_atrace_end_body();
- }
- 
- void
- atrace_init()
- {
-+   return lib_atrace_init();
- }
- 
- uint64_t
- atrace_get_enabled_tags()
- {
--   return ATRACE_TAG_NOT_READY;
-+   return lib_atrace_get_enabled_tags();
- }
+-
  }
 diff -Nuarp mesa-25.0.0/src/android_stub/dlfcn_nougat.cpp mesa-25.0.0.android_stub/src/android_stub/dlfcn_nougat.cpp
 --- mesa-25.0.0/src/android_stub/dlfcn_nougat.cpp	1970-01-01 08:00:00.000000000 +0800
