@@ -13,7 +13,7 @@ jobs:
       run: sed -i -e '/^  -g$/d' $ANDROID_NDK_LATEST_HOME/build/cmake/android-legacy.toolchain.cmake
 
     - name: apt
-      run: sudo apt-get install -y meson patchelf python3-pip flex bison python3-mako python-is-python3 glslang-tools
+      run: sudo apt-get install -y meson patchelf python3-pip flex bison python3-mako python-is-python3 glslang-tools libdrm-dev
 
     - name: pip
       run: pip3 install -U meson --user
