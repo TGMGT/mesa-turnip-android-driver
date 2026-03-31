@@ -1,5 +1,5 @@
 name: edge
-on: workflow_dispatch
+on: [push]
 
 env:
   mesa-version: edge
@@ -38,7 +38,7 @@ jobs:
             -Degl=enabled \
             -Dvulkan-drivers=freedreno \
             -Dfreedreno-kmds=kgsl \
-            -Db_lto=true -Dstrip=true \
+            -Dstrip=true \
             -Dgles1=enabled \
             -Dgles2=enabled
 
