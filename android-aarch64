@@ -13,6 +13,9 @@ cpu_family = 'aarch64'
 cpu = 'armv8'
 endian = 'little'
 
+[built-in options]
+libdrm_args = ['-Dintel=disabled', '-Dradeon=disabled', '-Damdgpu=disabled', '-Dnouveau=disabled']
+
 [properties]
 pkg_config_libdir = []
 pkg_config_static = true
