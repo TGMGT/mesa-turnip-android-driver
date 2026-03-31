@@ -34,12 +34,14 @@ jobs:
             -Dplatform-sdk-version=26 \
             -Dandroid-stub=true \
             -Dvideo-codecs= \
-            -Dgallium-drivers= \
-            -Dglx=disabled \
-            -Degl=disabled \
+            -Dgallium-drivers=freedreno \
+            -Dglx=enabled \
+            -Degl=enabled \
             -Dvulkan-drivers=freedreno \
             -Dfreedreno-kmds=kgsl \
             -Db_lto=true -Dstrip=true
+            -Dgles1=enabled \
+            -Dgles2=enabled
 
         ninja -C build-android
 
